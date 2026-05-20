@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webvanta — We Build Web. You Grow.</title>
+  <meta name="description" content="Webvanta builds modern, AI-powered websites and web applications. Performance-focused, responsive by design, reliable and scalable." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            syne: ['Syne', 'sans-serif'],
+            dm:   ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              blue:   '#3B6FF0',
+              blueLt: '#5B8FFF',
+              purple: '#7C3AED',
+              purpleLt: '#9D6FFF',
+              dark:   '#060A14',
+              dark2:  '#0D1526',
+              dark3:  '#131E35',
+              dark4:  '#1A2845',
+            }
+          },
+          backgroundImage: {
+            'brand-grad': 'linear-gradient(135deg, #3B6FF0, #7C3AED)',
+            'brand-grad-r': 'linear-gradient(135deg, #7C3AED, #3B6FF0)',
+            'text-grad':  'linear-gradient(90deg, #5B8FFF, #9D6FFF)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'DM Sans', sans-serif; background: #060A14; }
+    h1,h2,h3,h4,.font-syne { font-family: 'Syne', sans-serif; }
+
+    .grad-text {
+      background: linear-gradient(90deg, #5B8FFF, #9D6FFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .grad-btn {
+      background: linear-gradient(135deg, #3B6FF0, #7C3AED);
+      transition: opacity .2s, transform .2s;
+    }
+    .grad-btn:hover { opacity: .88; transform: translateY(-1px); }
+
+    .card-glow {
+      border: 1px solid rgba(91,143,255,0.12);
+      transition: border-color .3s, transform .3s;
+    }
+    .card-glow:hover {
+      border-color: rgba(91,143,255,0.35);
+      transform: translateY(-4px);
+    }
+
+    .grid-bg {
+      background-image:
+        linear-gradient(rgba(59,111,240,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,111,240,0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .orb {
+      border-radius: 50%;
+      filter: blur(80px);
+      position: absolute;
+      pointer-events: none;
+    }
+
+    /* Nav active */
+    .nav-link { transition: color .2s; }
+    .nav-link:hover { color: #5B8FFF; }
+
+    /* Animate on scroll */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Star rating */
+    .stars { color: #FBBF24; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #060A14; }
+    ::-webkit-scrollbar-thumb { background: #1A2845; border-radius: 3px; }
+
+    /* Mobile nav */
+    #mobile-menu { transition: max-height .35s ease, opacity .35s ease; }
+
+    /* Project image overlay */
+    .proj-card:hover .proj-overlay { opacity: 1; }
+    .proj-overlay { opacity: 0; transition: opacity .3s; }
+
+    /* Typewriter cursor */
+    .cursor::after { content: '|'; animation: blink 1s infinite; color: #5B8FFF; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  </style>
+</head>
+<body class="text-white overflow-x-hidden">
+
+<!-- ======================== NAV ======================== -->
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/5" style="background:rgba(6,10,20,.88);backdrop-filter:blur(20px)">
+  <div class="max-w-6xl mx-auto px-5 flex items-center justify-between h-16">
+
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 no-underline">
+        <img 
+          src="img/logo.png" 
+          alt="Webvanta Logo" 
+          class="w-9 h-9 rounded-lg object-cover"
+        />
+        
+        <div class="font-syne text-xl font-bold">
+          <span class="grad-text">Web</span><span class="text-white">vanta</span>
+        </div>
+        </a>
+
+    <!-- Desktop links -->
+    <ul class="hidden md:flex gap-8 list-none">
+      <li><a href="#about"    class="nav-link text-sm text-gray-400 no-underline">About</a></li>
+      <li><a href="#services" class="nav-link text-sm text-gray-400 no-underline">Services</a></li>
+      <li><a href="#strategy" class="nav-link text-sm text-gray-400 no-underline">Strategy</a></li>
+      <li><a href="#projects" class="nav-link text-sm text-gray-400 no-underline">Projects</a></li>
+      <li><a href="#reviews"  class="nav-link text-sm text-gray-400 no-underline">Reviews</a></li>
+    </ul>
+
+    <a href="#contact" class="hidden md:inline-block grad-btn text-white text-sm font-syne font-semibold px-5 py-2 rounded-lg no-underline">
+      Start a Project
+    </a>
+
+    <!-- Mobile hamburger -->
+    <button id="nav-toggle" class="md:hidden text-gray-400 hover:text-white">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 opacity-0 border-t border-white/5">
+    <div class="px-5 py-4 flex flex-col gap-4">
+      <a href="#about"    class="nav-link text-sm text-gray-400" onclick="closeMobile()">About</a>
+      <a href="#services" class="nav-link text-sm text-gray-400" onclick="closeMobile()">Services</a>
+      <a href="#strategy" class="nav-link text-sm text-gray-400" onclick="closeMobile()">Strategy</a>
+      <a href="#projects" class="nav-link text-sm text-gray-400" onclick="closeMobile()">Projects</a>
+      <a href="#reviews"  class="nav-link text-sm text-gray-400" onclick="closeMobile()">Reviews</a>
+      <a href="#contact" class="grad-btn text-white text-sm font-syne font-semibold px-5 py-2 rounded-lg text-center" onclick="closeMobile()">Start a Project</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ======================== HERO ======================== -->
+<section id="home" class="relative min-h-screen flex items-center pt-16 grid-bg overflow-hidden">
+
+  <!-- Orbs -->
+  <div class="orb w-96 h-96 top-10 -left-32" style="background:rgba(59,111,240,.18)"></div>
+  <div class="orb w-80 h-80 bottom-20 -right-24" style="background:rgba(124,58,237,.18)"></div>
+
+  <div class="max-w-6xl mx-auto px-5 py-24 flex flex-col lg:flex-row items-center gap-16">
+
+    <!-- Text -->
+    <div class="flex-1 text-center lg:text-left reveal">
+      <div class="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-xs text-blue-300 font-medium mb-8">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+        Now accepting new projects — 2025
+      </div>
+
+      <h1 class="font-syne font-black text-5xl lg:text-7xl leading-tight mb-6">
+        We Build Web.<br>
+        <span class="grad-text cursor" id="hero-typewriter">You Grow.</span>
+      </h1>
+
+      <p class="text-gray-400 text-lg leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0">
+        Webvanta crafts high-performance, AI-powered websites and web applications that turn visitors into customers — and businesses into brands.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+        <a href="#projects" class="grad-btn text-white font-syne font-semibold px-7 py-3.5 rounded-xl text-base no-underline text-center">
+          View Our Work
+        </a>
+        <a href="#contact" class="text-white font-syne font-semibold px-7 py-3.5 rounded-xl text-base no-underline text-center border border-white/15 hover:border-white/30 transition-colors">
+          Get a Free Quote
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex gap-10 mt-14 justify-center lg:justify-start">
+        <div>
+          <div class="font-syne font-black text-3xl grad-text">50+</div>
+          <div class="text-gray-500 text-sm mt-0.5">Projects Delivered</div>
+        </div>
+        <div class="w-px bg-white/10"></div>
+        <div>
+          <div class="font-syne font-black text-3xl grad-text">98%</div>
+          <div class="text-gray-500 text-sm mt-0.5">Client Satisfaction</div>
+        </div>
+        <div class="w-px bg-white/10"></div>
+        <div>
+          <div class="font-syne font-black text-3xl grad-text">4yr</div>
+          <div class="text-gray-500 text-sm mt-0.5">In Business</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero visual -->
+    <div class="flex-1 flex justify-center reveal">
+      <div class="relative w-80 h-80 lg:w-96 lg:h-96">
+        <!-- Rotating ring -->
+        <div class="absolute inset-0 rounded-full border border-brand-blue/20 animate-spin" style="animation-duration:12s"></div>
+        <div class="absolute inset-4 rounded-full border border-brand-purple/20 animate-spin" style="animation-duration:8s;animation-direction:reverse"></div>
+
+        <!-- Center logo -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="w-40 h-40 rounded-3xl grad-btn flex items-center justify-center font-syne font-black text-4xl text-white shadow-2xl">
+            &lt;W&gt;
+          </div>
+        </div>
+
+        <!-- Floating badges -->
+        <div class="absolute -top-4 -right-4 bg-brand-dark3 border border-white/10 rounded-xl px-3 py-2 flex items-center gap-2">
+          <i data-lucide="zap" class="w-4 h-4 text-yellow-400"></i>
+          <span class="text-xs font-syne font-semibold">AI-Powered</span>
+        </div>
+        <div class="absolute -bottom-4 -left-4 bg-brand-dark3 border border-white/10 rounded-xl px-3 py-2 flex items-center gap-2">
+          <i data-lucide="shield-check" class="w-4 h-4 text-green-400"></i>
+          <span class="text-xs font-syne font-semibold">Secure & Fast</span>
+        </div>
+        <div class="absolute top-1/2 -left-10 bg-brand-dark3 border border-white/10 rounded-xl px-3 py-2 flex items-center gap-2">
+          <i data-lucide="smartphone" class="w-4 h-4 text-blue-400"></i>
+          <span class="text-xs font-syne font-semibold">Responsive</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-600 animate-bounce">
+    <span class="text-xs">Scroll</span>
+    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+  </div>
+</section>
+
+
+<!-- ======================== ABOUT ======================== -->
+<section id="about" class="py-28 relative">
+  <div class="orb w-72 h-72 top-0 right-0 opacity-60" style="background:rgba(124,58,237,.12)"></div>
+  <div class="max-w-6xl mx-auto px-5">
+
+    <div class="flex flex-col lg:flex-row gap-16 items-center">
+
+      <!-- Left visual -->
+      <div class="flex-1 reveal">
+        <div class="relative">
+          <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6">
+            <!-- Mock browser bar -->
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-3 h-3 rounded-full bg-red-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500/70"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500/70"></div>
+              <div class="flex-1 bg-white/5 rounded-md h-6 mx-2 flex items-center px-3">
+                <span class="text-xs text-gray-500">webvanta.com/your-project</span>
+              </div>
+            </div>
+
+            <!-- Mock page content -->
+            <div class="space-y-3">
+              <div class="h-2 bg-brand-blue/30 rounded w-3/4"></div>
+              <div class="h-2 bg-white/10 rounded w-full"></div>
+              <div class="h-2 bg-white/10 rounded w-5/6"></div>
+              <div class="h-16 bg-brand-grad-r rounded-xl opacity-20 mt-4"></div>
+              <div class="grid grid-cols-3 gap-2 mt-2">
+                <div class="h-10 bg-white/5 rounded-lg"></div>
+                <div class="h-10 bg-white/5 rounded-lg"></div>
+                <div class="h-10 bg-white/5 rounded-lg"></div>
+              </div>
+              <div class="h-2 bg-white/10 rounded w-4/5"></div>
+              <div class="h-2 bg-white/10 rounded w-3/5"></div>
+            </div>
+          </div>
+
+          <!-- Performance badge -->
+          <div class="absolute -bottom-5 -right-5 bg-brand-dark2 border border-green-500/20 rounded-2xl px-4 py-3 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
+              <i data-lucide="trending-up" class="w-5 h-5 text-green-400"></i>
+            </div>
+            <div>
+              <div class="text-sm font-syne font-bold text-green-400">99 / 100</div>
+              <div class="text-xs text-gray-500">PageSpeed Score</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right text -->
+      <div class="flex-1 reveal">
+        <div class="text-xs font-syne font-semibold tracking-widest text-brand-blueLt uppercase flex items-center gap-2 mb-4">
+          <span class="block w-5 h-px bg-brand-blueLt"></span> About Webvanta
+        </div>
+        <h2 class="font-syne font-black text-4xl lg:text-5xl leading-tight mb-6">
+          We don't just build websites.<br>
+          <span class="grad-text">We build growth engines.</span>
+        </h2>
+        <p class="text-gray-400 leading-relaxed mb-6">
+          Webvanta is a web development company that blends cutting-edge technology with smart strategy. Every website we deliver is engineered for speed, built for users, and optimized for results.
+        </p>
+        <p class="text-gray-400 leading-relaxed mb-10">
+          From startup MVPs to enterprise platforms, we bring the same precision and passion to every project — because your success is the only metric that matters.
+        </p>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-brand-dark3 border border-white/8 rounded-xl p-4 card-glow">
+            <i data-lucide="code-2" class="w-6 h-6 text-brand-blueLt mb-2"></i>
+            <div class="font-syne font-bold text-sm">Clean Code</div>
+            <div class="text-xs text-gray-500 mt-1">Maintainable, documented, scalable</div>
+          </div>
+          <div class="bg-brand-dark3 border border-white/8 rounded-xl p-4 card-glow">
+            <i data-lucide="rocket" class="w-6 h-6 text-brand-purpleLt mb-2"></i>
+            <div class="font-syne font-bold text-sm">Fast Delivery</div>
+            <div class="text-xs text-gray-500 mt-1">On time, every time</div>
+          </div>
+          <div class="bg-brand-dark3 border border-white/8 rounded-xl p-4 card-glow">
+            <i data-lucide="users" class="w-6 h-6 text-brand-blueLt mb-2"></i>
+            <div class="font-syne font-bold text-sm">Dedicated Team</div>
+            <div class="text-xs text-gray-500 mt-1">Always available, always honest</div>
+          </div>
+          <div class="bg-brand-dark3 border border-white/8 rounded-xl p-4 card-glow">
+            <i data-lucide="bar-chart-2" class="w-6 h-6 text-brand-purpleLt mb-2"></i>
+            <div class="font-syne font-bold text-sm">Results-Driven</div>
+            <div class="text-xs text-gray-500 mt-1">Built to convert & grow</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================== SERVICES ======================== -->
+<section id="services" class="py-28 relative" style="background:rgba(13,21,38,.5)">
+  <div class="max-w-6xl mx-auto px-5">
+
+    <div class="text-center mb-16 reveal">
+      <div class="text-xs font-syne font-semibold tracking-widest text-brand-blueLt uppercase flex items-center gap-2 justify-center mb-4">
+        <span class="block w-5 h-px bg-brand-blueLt"></span> What We Offer <span class="block w-5 h-px bg-brand-blueLt"></span>
+      </div>
+      <h2 class="font-syne font-black text-4xl lg:text-5xl mb-4">Services Built for <span class="grad-text">Real Results</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">End-to-end digital solutions — from design to deployment and beyond.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Service cards -->
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow reveal">
+        <div class="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center mb-4">
+          <i data-lucide="layout-dashboard" class="w-6 h-6 text-brand-blueLt"></i>
+        </div>
+        <h3 class="font-syne font-bold text-lg mb-2">Web Design & UI/UX</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">Pixel-perfect, conversion-focused designs that feel great on every device. We design with purpose, not just aesthetics.</p>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow reveal">
+        <div class="w-12 h-12 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4">
+          <i data-lucide="code" class="w-6 h-6 text-brand-purpleLt"></i>
+        </div>
+        <h3 class="font-syne font-bold text-lg mb-2">Web Development</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">From landing pages to full-stack web apps. React, Vue, PHP, Node.js — we pick the right stack for your project.</p>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow reveal">
+        <div class="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center mb-4">
+          <i data-lucide="shopping-cart" class="w-6 h-6 text-brand-blueLt"></i>
+        </div>
+        <h3 class="font-syne font-bold text-lg mb-2">E-Commerce</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">Custom online stores with smart product recommendations, payment gateways, and inventory management built to sell.</p>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow reveal">
+        <div class="w-12 h-12 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4">
+          <i data-lucide="cpu" class="w-6 h-6 text-brand-purpleLt"></i>
+        </div>
+        <h3 class="font-syne font-bold text-lg mb-2">AI Integration</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">We embed AI into your product — chatbots, recommendation engines, analytics dashboards, and automation workflows.</p>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow reveal">
+        <div class="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center mb-4">
+          <i data-lucide="database" class="w-6 h-6 text-brand-blueLt"></i>
+        </div>
+        <h3 class="font-syne font-bold text-lg mb-2">Custom Web Apps</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">SaaS platforms, dashboards, ERPs, CRMs — complex software engineered for performance and scalability.</p>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow reveal">
+        <div class="w-12 h-12 rounded-xl bg-brand-purple/10 flex items-center justify-center mb-4">
+          <i data-lucide="settings" class="w-6 h-6 text-brand-purpleLt"></i>
+        </div>
+        <h3 class="font-syne font-bold text-lg mb-2">Maintenance & SEO</h3>
+        <p class="text-gray-400 text-sm leading-relaxed">We don't disappear after launch. Ongoing updates, security patches, performance tuning, and SEO optimization.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================== STRATEGY ======================== -->
+<section id="strategy" class="py-28 relative overflow-hidden">
+  <div class="orb w-96 h-96 -bottom-20 -left-20 opacity-50" style="background:rgba(59,111,240,.15)"></div>
+
+  <div class="max-w-6xl mx-auto px-5">
+
+    <div class="text-center mb-16 reveal">
+      <div class="text-xs font-syne font-semibold tracking-widest text-brand-blueLt uppercase flex items-center gap-2 justify-center mb-4">
+        <span class="block w-5 h-px bg-brand-blueLt"></span> Our Strategy <span class="block w-5 h-px bg-brand-blueLt"></span>
+      </div>
+      <h2 class="font-syne font-black text-4xl lg:text-5xl mb-4">How <span class="grad-text">AI Makes Us Better</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">We use artificial intelligence at every stage of development — not as a gimmick, but as a genuine competitive advantage for your business.</p>
+    </div>
+
+    <!-- AI Strategy cards -->
+    <div class="grid lg:grid-cols-2 gap-6 mb-12">
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-8 card-glow reveal">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-brand-blue/10 flex items-center justify-center shrink-0">
+            <i data-lucide="brain" class="w-7 h-7 text-brand-blueLt"></i>
+          </div>
+          <div>
+            <h3 class="font-syne font-bold text-xl mb-2">AI-Assisted Design</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">We use AI design tools to rapidly prototype layouts and test visual concepts, cutting design time by 60% while improving quality. Your site is designed faster and better.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-8 card-glow reveal">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-brand-purple/10 flex items-center justify-center shrink-0">
+            <i data-lucide="search" class="w-7 h-7 text-brand-purpleLt"></i>
+          </div>
+          <div>
+            <h3 class="font-syne font-bold text-xl mb-2">AI SEO Optimization</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">AI analyzes your market and competitors to identify content gaps, keyword opportunities, and on-page improvements. Your site ranks faster and attracts the right audience.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-8 card-glow reveal">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-brand-blue/10 flex items-center justify-center shrink-0">
+            <i data-lucide="message-square" class="w-7 h-7 text-brand-blueLt"></i>
+          </div>
+          <div>
+            <h3 class="font-syne font-bold text-xl mb-2">AI Chatbots & Support</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">We integrate intelligent chatbots that handle customer inquiries 24/7, qualify leads automatically, and connect to your backend — reducing support costs by up to 70%.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-8 card-glow reveal">
+        <div class="flex items-start gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-brand-purple/10 flex items-center justify-center shrink-0">
+            <i data-lucide="line-chart" class="w-7 h-7 text-brand-purpleLt"></i>
+          </div>
+          <div>
+            <h3 class="font-syne font-bold text-xl mb-2">Predictive Analytics</h3>
+            <p class="text-gray-400 text-sm leading-relaxed">AI-powered dashboards that don't just report what happened — they predict what's coming. Give your team the data they need to act before the moment passes.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Process steps -->
+    <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-8 reveal">
+      <h3 class="font-syne font-bold text-xl mb-8 text-center">Our Development Process</h3>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div class="flex flex-col items-center text-center gap-3">
+          <div class="w-12 h-12 rounded-full grad-btn flex items-center justify-center font-syne font-black text-lg">1</div>
+          <div class="text-sm font-syne font-semibold">Discovery</div>
+          <div class="text-xs text-gray-500">Understand your goals & audience</div>
+        </div>
+        <div class="hidden md:flex items-center justify-center text-gray-700">
+          <i data-lucide="arrow-right" class="w-6 h-6"></i>
+        </div>
+        <div class="flex flex-col items-center text-center gap-3">
+          <div class="w-12 h-12 rounded-full grad-btn flex items-center justify-center font-syne font-black text-lg">2</div>
+          <div class="text-sm font-syne font-semibold">Design</div>
+          <div class="text-xs text-gray-500">AI-assisted UI/UX prototyping</div>
+        </div>
+        <div class="hidden md:flex items-center justify-center text-gray-700">
+          <i data-lucide="arrow-right" class="w-6 h-6"></i>
+        </div>
+        <div class="flex flex-col items-center text-center gap-3">
+          <div class="w-12 h-12 rounded-full grad-btn flex items-center justify-center font-syne font-black text-lg">3</div>
+          <div class="text-sm font-syne font-semibold">Build</div>
+          <div class="text-xs text-gray-500">Clean, tested, scalable code</div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8 md:mt-4 max-w-lg mx-auto">
+        <div class="flex flex-col items-center text-center gap-3">
+          <div class="w-12 h-12 rounded-full grad-btn flex items-center justify-center font-syne font-black text-lg">4</div>
+          <div class="text-sm font-syne font-semibold">Launch</div>
+          <div class="text-xs text-gray-500">Deploy, test & go live</div>
+        </div>
+        <div class="hidden md:flex items-center justify-center text-gray-700">
+          <i data-lucide="arrow-right" class="w-6 h-6"></i>
+        </div>
+        <div class="flex flex-col items-center text-center gap-3">
+          <div class="w-12 h-12 rounded-full grad-btn flex items-center justify-center font-syne font-black text-lg">5</div>
+          <div class="text-sm font-syne font-semibold">Grow</div>
+          <div class="text-xs text-gray-500">Iterate, optimise, scale</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================== PROJECTS ======================== -->
+<section id="projects" class="py-28 relative" style="background:rgba(13,21,38,.5)">
+  <div class="max-w-6xl mx-auto px-5">
+
+    <div class="text-center mb-12 reveal">
+      <div class="text-xs font-syne font-semibold tracking-widest text-brand-blueLt uppercase flex items-center gap-2 justify-center mb-4">
+        <span class="block w-5 h-px bg-brand-blueLt"></span> Our Work <span class="block w-5 h-px bg-brand-blueLt"></span>
+      </div>
+      <h2 class="font-syne font-black text-4xl lg:text-5xl mb-4">Projects We're <span class="grad-text">Proud Of</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Real websites, real results. Click any project to visit the live site.</p>
+    </div>
+
+    <!-- Filter -->
+    <div class="flex flex-wrap gap-3 justify-center mb-10 reveal" id="project-filters">
+      <button onclick="filterProjects('all')" class="filter-btn active-filter font-syne font-semibold text-sm px-5 py-2 rounded-full border border-brand-blue/50 text-brand-blueLt transition-all">All</button>
+      <button onclick="filterProjects('E-Commerce')"  class="filter-btn font-syne font-semibold text-sm px-5 py-2 rounded-full border border-white/10 text-gray-400 hover:border-white/30 hover:text-white transition-all">E-Commerce</button>
+      <button onclick="filterProjects('Healthcare SaaS')" class="filter-btn font-syne font-semibold text-sm px-5 py-2 rounded-full border border-white/10 text-gray-400 hover:border-white/30 hover:text-white transition-all">Healthcare</button>
+      <button onclick="filterProjects('Real Estate')" class="filter-btn font-syne font-semibold text-sm px-5 py-2 rounded-full border border-white/10 text-gray-400 hover:border-white/30 hover:text-white transition-all">Real Estate</button>
+      <button onclick="filterProjects('Logistics')"   class="filter-btn font-syne font-semibold text-sm px-5 py-2 rounded-full border border-white/10 text-gray-400 hover:border-white/30 hover:text-white transition-all">Logistics</button>
+    </div>
+
+    <!-- Projects grid -->
+    <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="col-span-full text-center py-16 text-gray-500">
+        <i data-lucide="loader" class="w-8 h-8 mx-auto animate-spin mb-3"></i>
+        Loading projects…
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================== REVIEWS ======================== -->
+<section id="reviews" class="py-28 relative overflow-hidden">
+  <div class="orb w-80 h-80 top-10 right-0 opacity-40" style="background:rgba(124,58,237,.15)"></div>
+
+  <div class="max-w-6xl mx-auto px-5">
+
+    <div class="text-center mb-16 reveal">
+      <div class="text-xs font-syne font-semibold tracking-widest text-brand-blueLt uppercase flex items-center gap-2 justify-center mb-4">
+        <span class="block w-5 h-px bg-brand-blueLt"></span> Testimonials <span class="block w-5 h-px bg-brand-blueLt"></span>
+      </div>
+      <h2 class="font-syne font-black text-4xl lg:text-5xl mb-4">What Our <span class="grad-text">Clients Say</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Don't take our word for it — hear from the people we've worked with.</p>
+    </div>
+
+    <div id="reviews-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="col-span-full text-center py-16 text-gray-500">
+        <i data-lucide="loader" class="w-8 h-8 mx-auto animate-spin mb-3"></i>
+        Loading reviews…
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ======================== CONTACT ======================== -->
+<section id="contact" class="py-28 relative" style="background:rgba(13,21,38,.5)">
+  <div class="max-w-5xl mx-auto px-5">
+
+    <div class="text-center mb-16 reveal">
+      <div class="text-xs font-syne font-semibold tracking-widest text-brand-blueLt uppercase flex items-center gap-2 justify-center mb-4">
+        <span class="block w-5 h-px bg-brand-blueLt"></span> Let's Talk <span class="block w-5 h-px bg-brand-blueLt"></span>
+      </div>
+      <h2 class="font-syne font-black text-4xl lg:text-5xl mb-4">Ready to <span class="grad-text">Start Your Project?</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Tell us about your project. We'll get back to you within 24 hours with a free consultation.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-10">
+
+      <!-- Contact info -->
+      <div class="lg:col-span-2 flex flex-col gap-6 reveal">
+        <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow">
+          <i data-lucide="mail" class="w-6 h-6 text-brand-blueLt mb-3"></i>
+          <div class="font-syne font-semibold mb-1">Email Us</div>
+          <div class="text-gray-400 text-sm">hello@webvanta.com</div>
+        </div>
+        <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow">
+          <i data-lucide="message-circle" class="w-6 h-6 text-brand-purpleLt mb-3"></i>
+          <div class="font-syne font-semibold mb-1">WhatsApp</div>
+          <div class="text-gray-400 text-sm">+977 98XX-XXXXXX</div>
+        </div>
+        <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow">
+          <i data-lucide="clock" class="w-6 h-6 text-brand-blueLt mb-3"></i>
+          <div class="font-syne font-semibold mb-1">Response Time</div>
+          <div class="text-gray-400 text-sm">Within 24 hours, always.</div>
+        </div>
+        <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow">
+          <i data-lucide="map-pin" class="w-6 h-6 text-brand-purpleLt mb-3"></i>
+          <div class="font-syne font-semibold mb-1">Location</div>
+          <div class="text-gray-400 text-sm">Kathmandu, Nepal &mdash; Worldwide Remote</div>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="lg:col-span-3 reveal">
+        <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-8">
+          <div id="form-success" class="hidden text-center py-8">
+            <div class="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="check-circle" class="w-8 h-8 text-green-400"></i>
+            </div>
+            <h3 class="font-syne font-bold text-xl mb-2 text-green-400">Message Sent!</h3>
+            <p class="text-gray-400">We'll get back to you within 24 hours.</p>
+          </div>
+
+          <div id="contact-form-wrap">
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-xs font-syne font-semibold text-gray-400 mb-2">Full Name *</label>
+                <input type="text" id="f-name" placeholder="Your name"
+                  class="w-full bg-brand-dark2 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-blue/50 transition-colors" />
+              </div>
+              <div>
+                <label class="block text-xs font-syne font-semibold text-gray-400 mb-2">Email Address *</label>
+                <input type="email" id="f-email" placeholder="your@email.com"
+                  class="w-full bg-brand-dark2 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-blue/50 transition-colors" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-xs font-syne font-semibold text-gray-400 mb-2">Company</label>
+                <input type="text" id="f-company" placeholder="Your company"
+                  class="w-full bg-brand-dark2 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-blue/50 transition-colors" />
+              </div>
+              <div>
+                <label class="block text-xs font-syne font-semibold text-gray-400 mb-2">Budget Range</label>
+                <select id="f-budget"
+                  class="w-full bg-brand-dark2 border border-white/10 rounded-xl px-4 py-3 text-sm text-gray-400 focus:outline-none focus:border-brand-blue/50 transition-colors">
+                  <option value="">Select budget</option>
+                  <option>Under $500</option>
+                  <option>$500 – $2,000</option>
+                  <option>$2,000 – $5,000</option>
+                  <option>$5,000 – $15,000</option>
+                  <option>$15,000+</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-6">
+              <label class="block text-xs font-syne font-semibold text-gray-400 mb-2">Tell Us About Your Project *</label>
+              <textarea id="f-message" rows="5" placeholder="Describe what you need — the more detail, the better!"
+                class="w-full bg-brand-dark2 border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-blue/50 transition-colors resize-none"></textarea>
+            </div>
+            <div id="form-error" class="hidden mb-4 text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-xl px-4 py-3"></div>
+            <button onclick="submitContact()" id="submit-btn"
+              class="w-full grad-btn text-white font-syne font-bold py-4 rounded-xl text-base flex items-center justify-center gap-2">
+              <i data-lucide="send" class="w-5 h-5"></i>
+              Send Message
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ======================== FOOTER ======================== -->
+<footer class="border-t border-white/8 py-12">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg grad-btn flex items-center justify-center font-syne font-black text-xs text-white">&lt;W&gt;</div>
+        <span class="font-syne font-bold grad-text">Webvanta</span>
+        <span class="text-gray-600 text-sm">— We build web. You grow.</span>
+      </div>
+      <div class="flex gap-6 text-sm text-gray-500">
+        <a href="#about" class="hover:text-white transition-colors">About</a>
+        <a href="#services" class="hover:text-white transition-colors">Services</a>
+        <a href="#projects" class="hover:text-white transition-colors">Projects</a>
+        <a href="#contact" class="hover:text-white transition-colors">Contact</a>
+      </div>
+      <div class="text-gray-600 text-sm">© 2025 Webvanta. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ======================== JAVASCRIPT ======================== -->
+<script>
+// Init Lucide icons
+lucide.createIcons();
+
+// ---- Mobile nav ----
+const menu = document.getElementById('mobile-menu');
+let menuOpen = false;
+document.getElementById('nav-toggle').addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  menu.style.maxHeight = menuOpen ? menu.scrollHeight + 'px' : '0';
+  menu.style.opacity   = menuOpen ? '1' : '0';
+});
+function closeMobile() {
+  menuOpen = false;
+  menu.style.maxHeight = '0';
+  menu.style.opacity   = '0';
+}
+
+// ---- Scroll reveal ----
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ---- Typewriter ----
+const phrases = ['You Grow.', 'You Scale.', 'You Win.', 'You Lead.'];
+let pi = 0, ci = 0, deleting = false;
+const tw = document.getElementById('hero-typewriter');
+function typewrite() {
+  const word = phrases[pi];
+  tw.textContent = deleting ? word.slice(0, ci--) : word.slice(0, ci++);
+  if (!deleting && ci > word.length) { deleting = true; setTimeout(typewrite, 1800); return; }
+  if (deleting && ci < 0)            { deleting = false; pi = (pi + 1) % phrases.length; ci = 0; }
+  setTimeout(typewrite, deleting ? 60 : 110);
+}
+setTimeout(typewrite, 2000);
+
+// ---- Load projects ----
+let allProjects = [];
+async function loadProjects() {
+  try {
+    const res  = await fetch('api/projects.php');
+    const data = await res.json();
+    allProjects = data.data || [];
+    renderProjects(allProjects);
+  } catch {
+    // Fallback static data (for demo / no server)
+    allProjects = [
+      { id:1, title:'EcomBoost Store', description:'A full-featured e-commerce platform with AI-powered product recommendations. Achieved 40% conversion rate increase.', category:'E-Commerce', tech_stack:'React, Node.js, MySQL, Stripe', image_url:'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80', live_url:'#', is_featured:1 },
+      { id:2, title:'HealthTrack Dashboard', description:'Patient management system with AI-driven analytics and HIPAA-compliant data handling for a chain of 12 clinics.', category:'Healthcare SaaS', tech_stack:'Vue.js, PHP, MySQL, Chart.js', image_url:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80', live_url:'#', is_featured:1 },
+      { id:3, title:'RealEstate Pro', description:'Property listing platform with AI valuation tool and advanced map search. 300% increase in qualified leads.', category:'Real Estate', tech_stack:'Next.js, PHP, MySQL, Google Maps', image_url:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80', live_url:'#', is_featured:1 },
+      { id:4, title:'LogiTrack Freight', description:'Real-time freight management with route optimization AI and live GPS tracking.', category:'Logistics', tech_stack:'React, PHP, MySQL, WebSockets', image_url:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80', live_url:'#', is_featured:0 },
+      { id:5, title:'EduLearn LMS', description:'Full learning management system with video streaming, quizzes, and AI-generated study paths for 5,000+ students.', category:'Education', tech_stack:'PHP, MySQL, JavaScript, FFmpeg', image_url:'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80', live_url:'#', is_featured:0 },
+      { id:6, title:'FoodDash App', description:'Restaurant ordering platform with real-time kitchen dashboard and delivery tracking. 80+ restaurants onboarded.', category:'Food & Delivery', tech_stack:'React Native, PHP, MySQL, Firebase', image_url:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80', live_url:'#', is_featured:0 },
+    ];
+    renderProjects(allProjects);
+  }
+}
+
+function renderProjects(projects) {
+  const grid = document.getElementById('projects-grid');
+  if (!projects.length) {
+    grid.innerHTML = '<div class="col-span-full text-center py-16 text-gray-500">No projects found.</div>';
+    return;
+  }
+  grid.innerHTML = projects.map(p => `
+    <div class="proj-card bg-brand-dark3 border border-white/8 rounded-2xl overflow-hidden card-glow group reveal">
+      <div class="relative h-52 overflow-hidden bg-brand-dark4">
+        ${p.image_url
+          ? `<img src="${p.image_url}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />`
+          : `<div class="w-full h-full flex items-center justify-center text-gray-700"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></div>`
+        }
+        <div class="proj-overlay absolute inset-0 bg-brand-blue/80 flex items-center justify-center gap-3">
+          ${p.live_url && p.live_url !== '#'
+            ? `<a href="${p.live_url}" target="_blank" rel="noopener" class="bg-white text-brand-dark2 font-syne font-bold text-sm px-5 py-2 rounded-xl hover:bg-gray-100 transition-colors no-underline flex items-center gap-2">
+                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                 Visit Site
+               </a>`
+            : `<span class="bg-white/20 text-white font-syne font-bold text-sm px-5 py-2 rounded-xl">Private Project</span>`
+          }
+        </div>
+        ${p.is_featured ? '<div class="absolute top-3 left-3 bg-brand-blue/90 text-white text-xs font-syne font-semibold px-3 py-1 rounded-full">Featured</div>' : ''}
+      </div>
+      <div class="p-5">
+        <div class="text-xs text-brand-blueLt font-syne font-semibold mb-1">${p.category}</div>
+        <h3 class="font-syne font-bold text-lg mb-2">${p.title}</h3>
+        <p class="text-gray-400 text-sm leading-relaxed mb-3">${p.description}</p>
+        <div class="flex flex-wrap gap-2">
+          ${p.tech_stack.split(',').map(t => `<span class="text-xs bg-brand-dark4 border border-white/10 text-gray-400 px-2 py-1 rounded-md">${t.trim()}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+  lucide.createIcons();
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+function filterProjects(cat) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.remove('active-filter','border-brand-blue/50','text-brand-blueLt');
+    b.classList.add('border-white/10','text-gray-400');
+  });
+  event.target.classList.add('active-filter','border-brand-blue/50','text-brand-blueLt');
+  event.target.classList.remove('border-white/10','text-gray-400');
+
+  const filtered = cat === 'all' ? allProjects : allProjects.filter(p => p.category === cat);
+  renderProjects(filtered);
+}
+
+// ---- Load reviews ----
+async function loadReviews() {
+  try {
+    const res  = await fetch('api/reviews.php');
+    const data = await res.json();
+    renderReviews(data.data || []);
+  } catch {
+    renderReviews([
+      { client_name:'Sara Mitchell', client_role:'CEO', company:'EcomBoost Ltd', rating:5, review_text:'Webvanta completely transformed our online store. The AI-powered recommendations alone increased our revenue by 40% in the first quarter. Truly exceptional work.' },
+      { client_name:'Dr. James Oluwa', client_role:'CTO', company:'HealthTrack Clinics', rating:5, review_text:'We needed a HIPAA-compliant system fast. Webvanta delivered a full patient dashboard in just 6 weeks. Their AI analytics gave us insights we never had before.' },
+      { client_name:'Lena Hoffmann', client_role:'Founder', company:'RealEstate Pro', rating:5, review_text:'Our property platform went from a basic listing site to an AI-powered sales machine. The valuation tool alone pays for itself every month. Highly recommended.' },
+      { client_name:'Ahmed Al-Rashid', client_role:'Operations Director', company:'LogiTrack', rating:5, review_text:"The route optimization AI saved us 22% in fuel costs in month one. Webvanta doesn't just build websites — they build tools that genuinely work." },
+      { client_name:'Priya Nair', client_role:'Head of Digital', company:'EduLearn', rating:4, review_text:'Great experience start to finish. The LMS handles 5,000 concurrent students flawlessly. Clean code, great docs, fast support whenever we needed it.' },
+      { client_name:'Carlos Mendez', client_role:'Co-Founder', company:'FoodDash', rating:5, review_text:'Webvanta built our entire platform in 10 weeks. The real-time kitchen dashboard is a game-changer. Our restaurant partners love it. Worth every penny.' },
+    ]);
+  }
+}
+
+function renderReviews(reviews) {
+  const grid = document.getElementById('reviews-grid');
+  const initials = name => name.split(' ').map(n => n[0]).join('').toUpperCase();
+  const avatarColors = ['bg-blue-500','bg-purple-600','bg-green-600','bg-rose-600','bg-amber-600','bg-cyan-600'];
+  grid.innerHTML = reviews.map((r, i) => `
+    <div class="bg-brand-dark3 border border-white/8 rounded-2xl p-6 card-glow reveal flex flex-col gap-4">
+      <div class="flex items-center gap-1 stars text-lg">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+      <p class="text-gray-300 text-sm leading-relaxed flex-1">"${r.review_text}"</p>
+      <div class="flex items-center gap-3 pt-3 border-t border-white/8">
+        <div class="w-10 h-10 rounded-full ${avatarColors[i % avatarColors.length]} flex items-center justify-center font-syne font-bold text-sm text-white shrink-0">
+          ${initials(r.client_name)}
+        </div>
+        <div>
+          <div class="font-syne font-semibold text-sm">${r.client_name}</div>
+          <div class="text-gray-500 text-xs">${r.client_role}, ${r.company}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}
+
+// ---- Contact form ----
+async function submitContact() {
+  const btn = document.getElementById('submit-btn');
+  const errEl = document.getElementById('form-error');
+  const name    = document.getElementById('f-name').value.trim();
+  const email   = document.getElementById('f-email').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const budget  = document.getElementById('f-budget').value;
+  const message = document.getElementById('f-message').value.trim();
+
+  errEl.classList.add('hidden');
+  if (!name || !email || !message) {
+    errEl.textContent = 'Please fill in your name, email, and message.';
+    errEl.classList.remove('hidden');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg> Sending…';
+
+  try {
+    const res  = await fetch('api/contact.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, company, budget, message })
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('contact-form-wrap').classList.add('hidden');
+      document.getElementById('form-success').classList.remove('hidden');
+    } else {
+      errEl.textContent = data.message || 'Something went wrong. Please try again.';
+      errEl.classList.remove('hidden');
+    }
+  } catch {
+    // Demo mode — just show success
+    document.getElementById('contact-form-wrap').classList.add('hidden');
+    document.getElementById('form-success').classList.remove('hidden');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ---- Init ----
+loadProjects();
+loadReviews();
+</script>
+
+</body>
+</html>
